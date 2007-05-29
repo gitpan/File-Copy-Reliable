@@ -1,6 +1,7 @@
 Build.PL
 lib/File/Copy/Reliable.pm
 Makefile.PL
+CHANGES
 MANIFEST			This list of files
 README
 t/pod.t

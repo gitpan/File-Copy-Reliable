@@ -3,9 +3,10 @@ use strict;
 use warnings;
 use Carp qw(croak);
 use File::Copy;
+use Path::Class;
 use Exporter 'import';
 our @EXPORT  = qw(copy_reliable move_reliable);
-our $VERSION = '0.30';
+our $VERSION = '0.31';
 
 sub copy_reliable {
     my ( $source, $destination ) = @_;
@@ -13,7 +14,11 @@ sub copy_reliable {
 
     copy( $source, $destination )
         || croak("copy_reliable($source, $destination) failed: $!");
-    my $destination_size = (-s $destination) || 0;
+    my $destination_file = $destination;
+    if (-d $destination) {
+        $destination_file = file( $destination, file( $source )->basename );
+    }
+    my $destination_size = (-s $destination_file) || 0;
     croak(
         "copy_reliable($source, $destination) failed copied $destination_size bytes out of $source_size"
         )
@@ -28,7 +33,11 @@ sub move_reliable {
 
     move( $source, $destination )
         || croak("move_reliable($source, $destination) failed: $!");
-    my $destination_size = (-s $destination) || 0;
+    my $destination_file = $destination;
+    if (-d $destination) {
+        $destination_file = file( $destination, file( $source )->basename );
+    }
+    my $destination_size = (-s $destination_file) || 0;
     croak(
         "move_reliable($source, $destination) failed copied $destination_size bytes out of $source_size"
         )

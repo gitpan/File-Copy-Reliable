@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 no warnings 'redefine';
-use Test::More tests => 20;
+use Test::More tests => 22;
 use Test::Exception;
 use Test::File;
 use Path::Class;
@@ -23,6 +23,12 @@ file_exists_ok( $source, "$source exists" );
 file_not_exists_ok( $destination, "$destination does not exist" );
 
 copy_reliable( $source, $destination );
+
+file_exists_ok( $destination, "$destination does exist" );
+file_size_ok( $destination, $size, "$destination size is $size" );
+
+unlink( $destination );
+copy_reliable( $source, $dir );
 
 file_exists_ok( $destination, "$destination does exist" );
 file_size_ok( $destination, $size, "$destination size is $size" );
@@ -58,7 +64,7 @@ $destination = file( $dir, $source->basename );
 *File::Copy::Reliable::copy = sub { $! = 3141; return 0; };
 
 throws_ok { copy_reliable( $source, $destination ) }
-    qr{copy_reliable\(t/pod.t, t/tmp/pod.t\) failed: Unknown error 3141},
+    qr{copy_reliable\(t/pod.t, t/tmp/pod.t\) failed: Unknown error:? 3141},
     'rethrows copy error';
 
 file_exists_ok( $source, "$source exists" );
@@ -76,7 +82,7 @@ file_not_exists_ok( $destination, "$destination does not exist" );
 *File::Copy::Reliable::move = sub { $! = 3142; return 0; };
 
 throws_ok { move_reliable( $source, $destination ) }
-    qr{move_reliable\(t/pod.t, t/tmp/pod.t\) failed: Unknown error 3142},
+    qr{move_reliable\(t/pod.t, t/tmp/pod.t\) failed: Unknown error:? 3142},
     'rethrows move error';
 
 *File::Copy::Reliable::move = sub { return 1 };

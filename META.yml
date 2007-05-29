@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name: File-Copy-Reliable
-version: 0.30
+version: 0.31
 author:
   - Leon Brocard <acme@astray.com>.
 abstract: file copying and moving with extra checking
