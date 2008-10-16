@@ -1,4 +1,3 @@
-Build.PL
 lib/File/Copy/Reliable.pm
 Makefile.PL
 CHANGES

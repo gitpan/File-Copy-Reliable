@@ -6,7 +6,7 @@ use File::Copy;
 use Path::Class;
 use Exporter 'import';
 our @EXPORT  = qw(copy_reliable move_reliable);
-our $VERSION = '0.31';
+our $VERSION = '0.32';
 
 sub copy_reliable {
     my ( $source, $destination ) = @_;
@@ -92,6 +92,8 @@ Leon Brocard <acme@astray.com>.
 =head1 COPYRIGHT
 
 Copyright (C) 2006 Foxtons Ltd.
+
+=head1 LICENSE
 
 This module is free software; you can redistribute it or modify it
 under the same terms as Perl itself.
